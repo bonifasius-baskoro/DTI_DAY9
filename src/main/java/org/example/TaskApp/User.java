@@ -44,6 +44,13 @@ public class User {
         System.out.println("Task sucessfully deleted");
     }
 
+    public void markCompleteTask(int indexTask){
+        String taskMarked= this.taskList.getTask(indexTask);
+        this.taskList.taskList.remove(indexTask);
+        this.taskList.completeTask.add(taskMarked);
+        System.out.println("Task sucessfully marked");
+    }
+
 
 
 
@@ -69,6 +76,10 @@ public class User {
         protected void addTask(String taskName){
             System.out.println("Task Added");
             this.taskList.add(taskName);
+        }
+
+        protected String getTask(int index){
+            return this.taskList.get(index);
         }
 
     }

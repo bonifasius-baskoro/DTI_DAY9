@@ -187,6 +187,11 @@ public class AppInterface {
                     System.out.println("Delete task-----");
                     this.deleteTaskInterface(username);
                     break;
+                case 4:
+                    System.out.println("Mark Task As Complete");
+                    this.markCompleteTaskInterface(username);
+                    break;
+
                 default:
                     System.out.println("Wrong input");
                     runUserInterface = false;
@@ -199,15 +204,20 @@ public class AppInterface {
     public void deleteTaskInterface(User username){
         boolean deleteTaskRun = true;
         while(deleteTaskRun){
-            String inputTask =inputScanner.getStringInput("Task name you want to delete or type exit if you want to get out:");
+            if(username.taskLength()==0){
+                System.out.println("There is no task to be deleted.");
+                break;
+            }
+            username.printTask();
+            String inputTask =inputScanner.getStringInput("Please give number of task you want to delete or type exit if you want to get out:");
             try {
                 int intInputTask = Integer.parseInt(inputTask);
-                if (intInputTask<1 || intInputTask+1>username.taskLength()) {
+                if (intInputTask<1 || intInputTask>username.taskLength()) {
                     System.out.println("Wrong input, please input the right task");
                     continue;
                 }
                 else{
-                    username.deleteTask(intInputTask);
+                    username.deleteTask(intInputTask-1);
                     continue;
                 }
             }catch (NumberFormatException e){
@@ -219,6 +229,41 @@ public class AppInterface {
                 } else if(inputTask.equals("exit")){
                     System.out.println("Exit the add task menu");
                     deleteTaskRun=false;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void markCompleteTaskInterface(User username){
+        boolean markCompleteTaskRun = true;
+        while(markCompleteTaskRun){
+            if(username.taskLength()==0){
+                System.out.println("There is no task to be marked.");
+                break;
+            }
+            username.printTask();
+            String inputTask =inputScanner.getStringInput("Please give number of task you want to mark as complete or type exit if you want to get out:");
+            try {
+                int intInputTask = Integer.parseInt(inputTask);
+                if (intInputTask<1 || intInputTask>username.taskLength()) {
+                    System.out.println("Wrong input, please input the right option using number in the task list");
+                    continue;
+                }
+                else{
+                    username.markCompleteTask(intInputTask-1);
+                    continue;
+                }
+            }catch (NumberFormatException e){
+                System.out.println("log : not a number input");
+            }finally {
+                if(inputTask.isBlank()){
+                    System.out.println("please Insert task name or type exit");
+                    continue;
+                } else if(inputTask.equals("exit")){
+                    System.out.println("Exit the add task menu");
+                    markCompleteTaskRun=false;
                     break;
                 }
             }
